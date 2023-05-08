@@ -9,7 +9,20 @@ import { TableInscriptionComponent } from './components/TableInscriptions/table-
 import { DirectivesModule } from '../shared/directives/directives.module';
 import { PipesModule } from '../shared/pipes/pipes.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InscriptionsComponent } from './inscriptions.component';
+import { RouterModule, Routes } from '@angular/router';
 
+
+const routes: Routes = [
+  {
+    path: '',
+    component: DashboardInscriptionsComponent
+  },
+  {
+    path: ':commission',
+    component: InscriptionsDetailComponent
+  }
+]
 
 
 @NgModule({
@@ -17,7 +30,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     DashboardInscriptionsComponent,
     InscriptionsDetailComponent,
     TableInscriptionComponent,
-    ModalFormInscriptionComponent
+    ModalFormInscriptionComponent,
+    InscriptionsComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +40,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     DirectivesModule,
     PipesModule,
     ReactiveFormsModule,
+    RouterModule.forChild(routes)
   ]
 })
 export class InscriptionsModule { }

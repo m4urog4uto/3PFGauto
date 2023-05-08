@@ -3,47 +3,28 @@ import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { DashboardCoursesComponent } from '../courses/pages/dashboard-courses/dashboard-courses.component';
-import { InscriptionsDetailComponent } from '../inscriptions/pages/inscriptions-detail/inscriptions-detail.component';
-import { DashboardInscriptionsComponent } from '../inscriptions/pages/inscriptions/dashboard-inscriptions.component';
-import { DashboardStudentsComponent } from '../students/pages/dashboard-students/dashboard-students.component';
-import { DetailsStudentsComponent } from '../students/pages/details-students/details-students.component';
+import { StudentsComponent } from '../students/students.component';
+import { InscriptionsComponent } from '../inscriptions/inscriptions.component';
+import { CoursesComponent } from '../courses/courses.component';
+import { DirectorGuard } from '../shared/guards/director.guard';
 
 const routes: Routes = [
   {
     path: 'alumnos',
-    children: [
-      {
-        path: '',
-        component: DashboardStudentsComponent
-      },
-      {
-        path: ':studentId',
-        component: DetailsStudentsComponent
-      }
-    ]
+    component: StudentsComponent,
+    loadChildren: () => import('../students/students.module').then((s) => s.StudentsModule)
   },
   {
     path: 'inscripciones',
-    children: [
-      {
-        path: '',
-        component: DashboardInscriptionsComponent
-      },
-      {
-        path: ':commission',
-        component: InscriptionsDetailComponent
-      }
-    ]
+    component: InscriptionsComponent,
+    canActivate: [DirectorGuard],
+    loadChildren: () => import('../inscriptions/inscriptions.module').then((i) => i.InscriptionsModule)
   },
   {
     path: 'cursos',
-    children: [
-      {
-        path: '',
-        component: DashboardCoursesComponent
-      }
-    ]
+    component: CoursesComponent,
+    canActivate: [DirectorGuard],
+    loadChildren: () => import('../courses/courses.module').then((c) => c.CoursesModule)
   },
   {
     path: '**',

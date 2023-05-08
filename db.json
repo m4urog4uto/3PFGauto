@@ -10,6 +10,17 @@
       "email": "m@m.com",
       "token": "Zsdw1weqweewqeq.5984902105.995939",
       "id": 1
+    },
+    {
+      "name": "Mauro",
+      "surname": "Gauto",
+      "user": "mauro1",
+      "password": "123456",
+      "confirmPassword": "123456",
+      "role": "Director",
+      "email": "m@m.com",
+      "token": "Zsdw1weqweewqeq.4801405102.457363",
+      "id": 2
     }
   ],
   "students": [
@@ -20,7 +31,10 @@
       "dni": "42176322",
       "email": "23/05/2023",
       "phone": 1144587889,
-      "courseSelected": ["Angular", "Ciberseguridad"]
+      "courseSelected": [
+        "Angular",
+        "Ciberseguridad"
+      ]
     },
     {
       "id": 2,
@@ -29,7 +43,10 @@
       "dni": "42121333",
       "email": "23/05/2023",
       "phone": 1144322132,
-      "courseSelected": ["Node JS", "Angular"]
+      "courseSelected": [
+        "Node JS",
+        "Angular"
+      ]
     },
     {
       "id": 398892223,
@@ -38,7 +55,10 @@
       "dni": "398892223",
       "email": "23/05/2023",
       "phone": 1132114332,
-      "courseSelected": ["Ciberseguridad", "Node JS"]
+      "courseSelected": [
+        "Ciberseguridad",
+        "Node JS"
+      ]
     }
   ],
   "courses": [

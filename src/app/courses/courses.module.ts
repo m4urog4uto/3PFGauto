@@ -9,23 +9,32 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ModalFormCourseComponent } from './components/ModalFormCourse/modal-form-course.component';
 import { TableCourseComponent } from './components/TableCourse/table-course.component';
+import { CoursesComponent } from './courses.component';
+import { RouterModule, Routes } from '@angular/router';
 
 
+const routes: Routes = [
+  {
+    path: '',
+    component: DashboardCoursesComponent
+  }
+]
 
 @NgModule({
   declarations: [
     DashboardCoursesComponent,
     ModalFormCourseComponent,
-    TableCourseComponent
+    TableCourseComponent,
+    CoursesComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
-    BrowserModule,
     PipesModule,
     DirectivesModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule.forChild(routes)
   ]
 })
 export class CoursesModule { }
