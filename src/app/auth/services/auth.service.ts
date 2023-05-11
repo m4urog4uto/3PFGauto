@@ -44,22 +44,6 @@ export class AuthService {
     })
   }
 
-  register(formValue: User): void {
-    // console.log(formValue);
-    this.httpClient.post<User>(
-      `${enviroment.apiBaseUrl}/users`,
-      {
-        ...formValue,
-        token: `Zsdw1weqweewqeq.${Math.random() * Math.pow(10, 10)}`
-      }
-    ).subscribe({
-      next: () => {
-        alert('User registered');
-        this.router.navigate(['login']);
-      }
-    })
-  }
-
   tokenVerify(): Observable<boolean> {
     const token = localStorage.getItem('token');
 
@@ -86,7 +70,7 @@ export class AuthService {
     )
   }
 
-  directorVerify(): Observable<boolean> {
+  adminVerify(): Observable<boolean> {
     const token = localStorage.getItem('token');
 
     return this.httpClient.get<User[]>(
@@ -95,7 +79,7 @@ export class AuthService {
     .pipe(
       map((users: User[]) => {
         const userAuth = users[0];
-        return userAuth.role === 'Director'
+        return userAuth.role === 'Administrador'
       })
     )
   }

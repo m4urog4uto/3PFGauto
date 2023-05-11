@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Student } from 'src/app/core/models';
 import { StudentService } from 'src/app/students/services/student.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -15,6 +16,9 @@ export class TableStudentComponent implements OnChanges {
   @Input()
   items: Student[] = [];
 
+  @Input()
+  isAdmin: boolean = false;
+
   @Output()
   editStudent = new EventEmitter<number>();
 
@@ -25,7 +29,7 @@ export class TableStudentComponent implements OnChanges {
 
   displayedColumns: string[] = ['dni', 'fullName', 'email', 'phone', 'courseSelected', 'actions'];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute,) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSource = new MatTableDataSource(this.items);

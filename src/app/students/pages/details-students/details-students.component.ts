@@ -4,6 +4,7 @@ import { Course, Student } from 'src/app/core/models';
 import { StudentService } from '../../services/student.service';
 import { ActivatedRoute } from '@angular/router';
 import { CoursesService } from '../../../courses/services/courses.service';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-details-students',
@@ -16,13 +17,16 @@ export class DetailsStudentsComponent {
   studentDetail: Student | undefined;
   coursesSelected: Course[] | undefined;
 
+  role$: Observable<string | undefined>;
   destroyed$ = new Subject<void>();
 
   constructor(
     private studentService: StudentService,
     private activatedRoute: ActivatedRoute,
-    private coursesService: CoursesService
+    private coursesService: CoursesService,
+    private authService: AuthService
   ) {
+    this.role$ = this.authService.getAuthUser().pipe(map((user) => user?.role));
     this.studentService.getStudentDetail(parseInt(this.activatedRoute.snapshot.params['studentId']))
       .pipe(takeUntil(this.destroyed$))
       .subscribe((result) => this.studentDetail = result);

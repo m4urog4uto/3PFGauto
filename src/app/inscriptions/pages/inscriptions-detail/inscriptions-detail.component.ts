@@ -5,6 +5,7 @@ import { InscriptionsService } from '../../services/inscriptions.service';
 import { ActivatedRoute } from '@angular/router';
 import { StudentService } from 'src/app/students/services/student.service';
 import { CoursesService } from 'src/app/courses/services/courses.service';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-detail-class',
@@ -18,13 +19,16 @@ export class InscriptionsDetailComponent implements OnDestroy {
   studentsAssigned: Student[] = [];
   coursesAssigned: Course | undefined;
 
+  role$: Observable<string | undefined>;
+
   constructor(
     private inscriptionsService: InscriptionsService,
     private activatedRoute: ActivatedRoute,
     private studentService: StudentService,
-    private coursesService: CoursesService
+    private coursesService: CoursesService,
+    private authService: AuthService
   ) {
-
+    this.role$ = this.authService.getAuthUser().pipe(map((user) => user?.role));
     this.inscriptionsService.getInscriptionDetail(parseInt(this.activatedRoute.snapshot.params['commission']))
       .pipe(takeUntil(this.destroyed$))
       .subscribe((inscriptionDetail) => this.inscriptionsDetail = inscriptionDetail);

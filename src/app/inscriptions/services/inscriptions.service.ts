@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
+import { BehaviorSubject, Observable, take, map } from 'rxjs';
 import { Inscription, Student } from '../../core/models';
 import { CoursesService } from '../../courses/services/courses.service';
 import { StudentService } from '../../students/services/student.service';
@@ -18,6 +18,8 @@ export class InscriptionsService {
   private inscriptionsStudentsList$: Observable<string[]>;
 
   private inscriptionsMentors$ = new BehaviorSubject<string[] | null>(null);
+
+  apiBaseInscriptions = `${enviroment.apiBaseUrl}/inscriptions`;
 
   constructor(
     private httpClient: HttpClient,
@@ -41,7 +43,11 @@ export class InscriptionsService {
         }
       })
 
-    this.httpClient.get<Inscription[]>(`${enviroment.apiBaseUrl}/inscriptions`)
+    this.getInscriptions();
+  }
+
+  getInscriptions(): void {
+    this.httpClient.get<Inscription[]>(this.apiBaseInscriptions)
       .subscribe({
         next: (inscriptions) => {
           this.inscriptions$.next(inscriptions);
@@ -49,8 +55,28 @@ export class InscriptionsService {
       })
   }
 
-  updateInscriptionsList(inscriptions: Inscription[]): void {
-    this.inscriptions$.next(inscriptions);
+  addInscription(inscriptionValue: Inscription): void {
+    this.httpClient.post<Inscription>(
+      this.apiBaseInscriptions, inscriptionValue
+    )
+    .pipe(take(1))
+    .subscribe(
+      (inscription) => {
+        this.inscriptions$.asObservable().pipe(take(1)).subscribe((inscriptions) => this.inscriptions$.next([ ...inscriptions, inscription ]))
+      }
+    )
+  }
+
+  editInscription(id: number, inscription: Inscription): void {
+    this.httpClient.put(this.apiBaseInscriptions + `/${id}`, inscription)
+    .pipe(take(1))
+    .subscribe(() => this.getInscriptions())
+  }
+
+  deleteInscription(id: number): void {
+    this.httpClient.delete(this.apiBaseInscriptions + `/${id}`)
+    .pipe(take(1))
+    .subscribe(() => this.getInscriptions())
   }
 
   getInscriptionsList(): Observable<Inscription[]> {

@@ -13,6 +13,9 @@ export class TableCoursesSelected implements OnChanges {
   @Input()
   items: Course[] = [];
 
+  @Input()
+  isAdmin: boolean = false;
+
   @Output()
   removeCourse = new EventEmitter<number>();
 

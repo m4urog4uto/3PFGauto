@@ -14,6 +14,9 @@ export class TableCourseComponent implements OnChanges {
   @Input()
   items: Course[] = [];
 
+  @Input()
+  isAdmin: boolean = false;
+
   @Output()
   editCourse = new EventEmitter<number>();
 
@@ -24,10 +27,16 @@ export class TableCourseComponent implements OnChanges {
 
   displayedColumns: string[] = ['courseName', 'description', 'duration', 'actions'];
 
-  constructor() {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSource = new MatTableDataSource(this.items);
+  }
+
+  courseDetail(id: number): void {
+    this.router.navigate([id], {
+      relativeTo: this.activatedRoute,
+    });
   }
 
   courseEdit(id: number): void {

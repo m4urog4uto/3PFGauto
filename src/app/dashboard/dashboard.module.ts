@@ -6,7 +6,8 @@ import { SharedModule } from '../shared/shared.module';
 import { StudentsComponent } from '../students/students.component';
 import { InscriptionsComponent } from '../inscriptions/inscriptions.component';
 import { CoursesComponent } from '../courses/courses.component';
-import { DirectorGuard } from '../shared/guards/director.guard';
+import { AdminGuard } from '../users/guards/admin.guard';
+import { UsersComponent } from '../users/users.component';
 
 const routes: Routes = [
   {
@@ -17,14 +18,18 @@ const routes: Routes = [
   {
     path: 'inscripciones',
     component: InscriptionsComponent,
-    canActivate: [DirectorGuard],
     loadChildren: () => import('../inscriptions/inscriptions.module').then((i) => i.InscriptionsModule)
   },
   {
     path: 'cursos',
     component: CoursesComponent,
-    canActivate: [DirectorGuard],
     loadChildren: () => import('../courses/courses.module').then((c) => c.CoursesModule)
+  },
+  {
+    path: 'usuarios',
+    component: UsersComponent,
+    canActivate: [AdminGuard],
+    loadChildren: () => import('../users/users.module').then((u) => u.UsersModule)
   },
   {
     path: '**',

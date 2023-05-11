@@ -19,6 +19,7 @@
         <ng-template #studentsAssig>
             <app-table-inscriptions
                 [items]="studentsAssigned"
+                [isAdmin]="(role$ | async) === 'Administrador'"
                 (removeStudent)="removeInscriptionStudent($event)"
           ></app-table-inscriptions>
         </ng-template>

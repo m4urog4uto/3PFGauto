@@ -10,19 +10,25 @@ const links: NavItem[] = [
     path: 'alumnos',
     title: 'Alumnos',
     icon: 'person',
-    roleAccepted: ['Director', 'Profesor']
+    roleAccepted: ['Administrador', 'Cliente']
   },
   {
     path: 'inscripciones',
     title: 'Inscripciones',
     icon: 'people_outline',
-    roleAccepted: ['Director']
+    roleAccepted: ['Administrador', 'Cliente']
   },
   {
     path: 'cursos',
     title: 'Cursos',
     icon: 'shopping_cart',
-    roleAccepted: ['Director']
+    roleAccepted: ['Administrador', 'Cliente']
+  },
+  {
+    path: 'usuarios',
+    title: 'Usuarios',
+    icon: 'supervised_user_circle',
+    roleAccepted: ['Administrador']
   },
 ]
 

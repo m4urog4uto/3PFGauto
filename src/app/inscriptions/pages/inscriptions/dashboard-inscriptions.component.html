@@ -28,13 +28,15 @@
                 <mat-card-actions>
                     <button mat-icon-button (click)="detailInscription(inscription.commission)">
                         <mat-icon>remove_red_eye</mat-icon>
-                      </button>
-                    <button mat-icon-button (click)="editInscription(inscription.id)">
-                        <mat-icon>edit</mat-icon>
-                      </button>
-                    <button mat-icon-button (click)="removeInscription(inscription.id)">
-                        <mat-icon>close</mat-icon>
                     </button>
+                    <span *ngIf="(role$ | async) === 'Administrador'">
+                        <button mat-icon-button (click)="editInscription(inscription.id)">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                        <button mat-icon-button (click)="removeInscription(inscription.id)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </span>
                 </mat-card-actions>
             </mat-card>
         </div>

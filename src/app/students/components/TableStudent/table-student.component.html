@@ -32,12 +32,14 @@
         <button mat-icon-button (click)="studentDetail(usuario.id)">
           <mat-icon>remove_red_eye</mat-icon>
         </button>
-        <button mat-icon-button (click)="studentEdit(usuario.id)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="studentRemove(usuario.id)">
-          <mat-icon>close</mat-icon>
-        </button>
+        <span *ngIf="isAdmin">
+          <button mat-icon-button (click)="studentEdit(usuario.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="studentRemove(usuario.id)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </span>
       </td>
     </ng-container>
   

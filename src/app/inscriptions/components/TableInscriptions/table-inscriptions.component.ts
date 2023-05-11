@@ -14,6 +14,9 @@ export class TableInscriptionComponent implements OnChanges {
   @Input()
   items: Student[] = [];
 
+  @Input()
+  isAdmin: boolean = true;
+
   @Output()
   editStudent = new EventEmitter<number>();
 

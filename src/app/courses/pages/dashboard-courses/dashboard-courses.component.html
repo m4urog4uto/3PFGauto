@@ -10,6 +10,7 @@
     <ng-template #table>
         <app-table-course
             [items]="courses"
+            [isAdmin]="(role$ | async) === 'Administrador'"
             (removeCourse)="removeCourse($event)"
             (editCourse)="editCourse($event)"
         ></app-table-course>

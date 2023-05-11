@@ -33,6 +33,7 @@
         <ng-template #coursesAssigned>
             <app-table-courses-selected
                 [items]="coursesSelected"
+                [isAdmin]="(role$ | async) === 'Administrador'"
                 (removeCourse)="removeCourse($event)"
             ></app-table-courses-selected>
         </ng-template>

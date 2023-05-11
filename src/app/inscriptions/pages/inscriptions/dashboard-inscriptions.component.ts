@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { InscriptionsService } from '../../services/inscriptions.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil, map } from 'rxjs';
 import { Inscription } from 'src/app/core/models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFormInscriptionComponent } from '../../components/ModalFormInscriptions/modal-form-inscriptions.component';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-dashboard-inscriptions',
@@ -14,13 +15,16 @@ import { ModalFormInscriptionComponent } from '../../components/ModalFormInscrip
 export class DashboardInscriptionsComponent {
   inscriptions: Inscription[] = [];
   destroyed$ = new Subject<void>();
+  role$: Observable<string | undefined>;
 
   constructor(
     private inscriptionsService: InscriptionsService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private dialogService: MatDialog
+    private dialogService: MatDialog,
+    private authService: AuthService
   ) {
+    this.role$ = this.authService.getAuthUser().pipe(map((user) => user?.role));
     this.inscriptionsService.getInscriptionsList()
       .pipe(takeUntil(this.destroyed$))
       .subscribe((inscriptions) => this.inscriptions = inscriptions);
@@ -39,11 +43,9 @@ export class DashboardInscriptionsComponent {
     });
 
     dialogo.afterClosed().subscribe(result => {
-      console.log(result);
       if (result.courseName) {
-        const newStudent = { ...result, id: this.inscriptions.length + 1 }
-        this.inscriptions = [ ...this.inscriptions, newStudent ];
-        this.inscriptionsService.updateInscriptionsList(this.inscriptions);
+        this.inscriptions = [ ...this.inscriptions, result ];
+        this.inscriptionsService.addInscription(result);
       }
     });
   }
@@ -66,14 +68,14 @@ export class DashboardInscriptionsComponent {
 
       dialogo.afterClosed().subscribe((result: Inscription) => {
         if (result) {
-          const newAlumnosList = this.inscriptions.map(obj => {
-            if (obj.id === result.id) {
-              return { ...obj, ...result }
-            }
-            return obj;
-          })
-          this.inscriptions = [ ...newAlumnosList ];
-          this.inscriptionsService.updateInscriptionsList(this.inscriptions);
+          // const newAlumnosList = this.inscriptions.map(obj => {
+          //   if (obj.id === result.id) {
+          //     return { ...obj, ...result }
+          //   }
+          //   return obj;
+          // })
+          // this.inscriptions = [ ...this.inscriptions, result ];
+          this.inscriptionsService.editInscription(id, result);
         }
       });
     }
@@ -86,7 +88,7 @@ export class DashboardInscriptionsComponent {
     };
 
     this.inscriptions = [ ...this.inscriptions ];
-    this.inscriptionsService.updateInscriptionsList(this.inscriptions);
+    this.inscriptionsService.deleteInscription(id);
   }
 
   detailInscription(comnission: number): void {
